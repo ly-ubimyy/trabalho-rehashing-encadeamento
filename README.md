@@ -57,7 +57,7 @@ O programa não pede nenhuma entrada. Ele roda os 29 testes de validação, most
 ## Andamento
 
 - [x] [#1 Estrutura base](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/1)
-- [ ] [#2 Rehashing linear](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/2)
+- [x] [#2 Rehashing linear](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/2)
 - [ ] [#3 Encadeamento ordenado](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/3)
 - [ ] [#4 Geração de chaves](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/4)
 - [ ] [#5 Métricas da estrutura](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/5)
