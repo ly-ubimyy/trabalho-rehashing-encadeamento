@@ -34,7 +34,7 @@ public class Trabalho1 {
     }
 
     //insere a chave usansdo o rehashing liinear, nisso ele retorna 1 se inseriu ou 0 se ja exisita e -1 se ja tava cheia
-    static int inserreRehashing(int[] tabela, int chave)
+    static int insereRehashing(int[] tabela, int chave)
     {
         int tamanho = tabela.length;
         int posicao = funcaoHash(chave, tamanho);
