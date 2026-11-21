@@ -32,6 +32,52 @@ public class Trabalho1 {
         }
         return tabela;
     }
+
+    //insere a chave usansdo o rehashing liinear, nisso ele retorna 1 se inseriu ou 0 se ja exisita e -1 se ja tava cheia
+    static int inserreRehashing(int[] tabela, int chave)
+    {
+        int tamanho = tabela.length;
+        int posicao = funcaoHash(chave, tamanho);
+        int passos = 0;
+
+        while(passos < tamanho){
+            acessos++;
+            passos++;
+
+            if(tabela[posicao] == VAZIO){
+                tabela[posicao]= chave;
+                return 1;
+            }
+
+            if(passos ==1){colisoes++;}
+
+            if(tabela[posicao] == chave){return 0;}
+
+
+            posicao = rehash(posicao,tamanho);
+        }
+        return -1;
+    }
+
+    //procura a chave na tabela, retorna a oposicao se achou e se não -1
+    static int buscaRehashing(int[] tabela, int chave){
+        int tamanho = tabela.length;
+        int posicao = funcaoHash(chave, tamanho);
+        int passos = 0;
+
+        while(passos < tamanho){
+            acessos++;
+            passos++;
+            
+            if (tabela[posicao]==VAZIO){return -1;}
+
+            if (tabela[posicao]==chave){return posicao;}
+
+            posicao = rehash(posicao,tamanho);
+
+        }
+        return -1;
+    }
 }
 
 class No {
