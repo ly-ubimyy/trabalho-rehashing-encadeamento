@@ -299,6 +299,144 @@ public class Trabalho1 {
             System.out.println("Teste" + codigo + ": Aprovado");}
         else{System.out.println("Teste" + codigo + ": Reprovado");}
     }
+
+    //roda os 29 testes solicitados no documento e imprime o resultado de cada um
+    static void executaTestes(){
+        int retorno;
+
+        //testes de gerar chaves
+        Random sorteio = new Random(1990);
+        int[] chavesG1 = geraChaves(sorteio, 5);
+        int[] esperadoG1 = {4429279, 3976163, 9187615, 1167825, 9651672};
+        mostraTeste("G1", vetoresIguais(chavesG1, esperadoG1) && duplicadasDescartadas == 0);
+
+        Random sorteioG2 = new Random(1990);
+        int[] chavesG2 = geraChaves(sorteioG2, 9000);
+        mostraTeste("G2", duplicadasDescartadas == 6 && chavesG2[8999] == 1368787);
+
+        Random sorteioG3 = new Random(1990);
+        int[] chavesG3 = geraChaves(sorteioG3, 900);
+        mostraTeste("G3", duplicadasDescartadas == 0 && chavesG3[899] == 7248893);
+
+        int[] ausentesG4 = geraAusentes(sorteio, chavesG1, 3);
+        int[] esperadoG4 = {8282916, 7251645, 6739522};
+        mostraTeste("G4", vetoresIguais(ausentesG4, esperadoG4));
+
+        // testes do rehashing
+        int[] sequencia = {15, 25, 35, 5, 12, 22, 9, 19, 29};
+        int[] tabela = criaTabelaRehashing(10);
+        acessos = 0;
+        colisoes = 0;
+        boolean todasInseriram = true;
+        for (int indice = 0; indice < sequencia.length; indice++) {
+            retorno = insereRehashing(tabela, sequencia[indice]);
+            if (retorno != 1) {
+                todasInseriram = false;
+            }
+        }
+        mostraTeste("R1", todasInseriram);
+
+        int[] esperadoR2 = {19, 29, 12, 22, VAZIO, 15, 25, 35, 5, 9};
+        mostraTeste("R2", vetoresIguais(tabela, esperadoR2));
+        mostraTeste("R3", colisoes == 6);
+        mostraTeste("R4", acessos == 19);
+
+        acessos = 0;
+        retorno = buscaRehashing(tabela, 29);
+        mostraTeste("R5", retorno == 1 && acessos == 3);
+
+        acessos = 0;
+        retorno = buscaRehashing(tabela, 99);
+        mostraTeste("R6", retorno == -1 && acessos == 6);
+
+        acessos = 0;
+        retorno = buscaRehashing(tabela, 18);
+        mostraTeste("R7", retorno == -1 && acessos == 7);
+
+        acessos = 0;
+        retorno = insereRehashing(tabela, 25);
+        mostraTeste("R8", retorno == 0 && acessos == 2 && tabela[6] == 25 && contaVaziasRehashing(tabela) == 1);
+
+        int[] tabelaPequena = criaTabelaRehashing(3);
+        insereRehashing(tabelaPequena, 1);
+        insereRehashing(tabelaPequena, 4);
+        insereRehashing(tabelaPequena, 7);
+        int[] esperadoR9 = {7, 1, 4};
+        mostraTeste("R9", vetoresIguais(tabelaPequena, esperadoR9));
+
+        acessos = 0;
+        retorno = insereRehashing(tabelaPequena, 10);
+        mostraTeste("R10", retorno == -1 && acessos == 3);
+
+        acessos = 0;
+        retorno = buscaRehashing(tabelaPequena, 10);
+        mostraTeste("R11", retorno == -1 && acessos == 3);
+
+        mostraTeste("R12", maiorAglomeradoRehashing(tabela) == 5);
+
+        // testes do encadeamento
+        No[] tabelaEncadeada = criaTabelaEncadeada(10);
+        acessos = 0;
+        colisoes = 0;
+        todasInseriram = true;
+        for (int indice = 0; indice < sequencia.length; indice++) {
+            retorno = insereEncadeamento(tabelaEncadeada, sequencia[indice]);
+            if (retorno != 1) {
+                todasInseriram = false;
+            }
+        }
+        mostraTeste("E1", todasInseriram);
+
+        int[] listaCinco = {5, 25, 35};
+        mostraTeste("E2", tabelaEncadeada[5].chave == 15 && listaConfere(tabelaEncadeada[5].proximo, listaCinco));
+
+        int[] listaDois = {22};
+        int[] listaNove = {19, 29};
+        mostraTeste("E3", tabelaEncadeada[2].chave == 12 && listaConfere(tabelaEncadeada[2].proximo, listaDois)
+                && tabelaEncadeada[9].chave == 9 && listaConfere(tabelaEncadeada[9].proximo, listaNove));
+
+        int[] posicoesVazias = {0, 1, 3, 4, 6, 7, 8};
+        boolean vaziasCertas = contaVaziasEncadeamento(tabelaEncadeada) == 7;
+        for (int indice = 0; indice < posicoesVazias.length; indice++) {
+            if (tabelaEncadeada[posicoesVazias[indice]].chave != VAZIO) {
+                vaziasCertas = false;
+            }
+        }
+        mostraTeste("E4", vaziasCertas);
+        mostraTeste("E5", colisoes == 6);
+        mostraTeste("E6", acessos == 12);
+
+        acessos = 0;
+        retorno = buscaEncadeamento(tabelaEncadeada, 29);
+        mostraTeste("E7", retorno == 9 && acessos == 3);
+
+        acessos = 0;
+        retorno = buscaEncadeamento(tabelaEncadeada, 99);
+        mostraTeste("E8", retorno == -1 && acessos == 3);
+
+        acessos = 0;
+        retorno = buscaEncadeamento(tabelaEncadeada, 18);
+        mostraTeste("E9", retorno == -1 && acessos == 1);
+
+        acessos = 0;
+        retorno = buscaEncadeamento(tabelaEncadeada, 25);
+        mostraTeste("E10", retorno == 5 && acessos == 3);
+
+        acessos = 0;
+        retorno = insereEncadeamento(tabelaEncadeada, 25);
+        mostraTeste("E11", retorno == 0 && acessos == 3 && contaNosExtras(tabelaEncadeada) == 6);
+
+        mostraTeste("E12", contaNosExtras(tabelaEncadeada) == 6);
+        mostraTeste("E13", maiorAglomeradoEncadeamento(tabelaEncadeada) == 4);
+
+        System.out.println("TESTES: " + testesAprovados + " de " + testesFeitos + " aprovados");
+    }
+
+    // por enquanto so roda os testes e nao retorna nada
+    public static void main(String[] args) {
+        executaTestes();
+    }
+    
 }
 
 class No {
