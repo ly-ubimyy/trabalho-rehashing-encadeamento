@@ -242,6 +242,20 @@ public class Trabalho1 {
         }
         return maior;
     }
+
+    //aqui conta todos os nós das listas encadeadas da tabela e retorna o total
+    static int contaNosExtras(No [] tabela){
+        int total = 0;
+
+        for(int posicao = 0; posicao< tabela.length; posicao++){
+            No atual = tabela[posicao].proximo;
+            while(atual != null){
+                total++;
+                atual = atual.proximo;
+            }
+        }
+        return total;
+    }
 }
 
 class No {
