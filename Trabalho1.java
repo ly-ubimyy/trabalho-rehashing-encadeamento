@@ -206,7 +206,42 @@ public class Trabalho1 {
         return vazias;
     }
 
-    
+    //procura a posiçaõ com mais chaves na tabela rehashing e retorna a quantidade 
+    static int maiorAglomeradoRehashing(int[] tabela) {
+        int maior = 0;
+        int sequencia = 0;
+        for (int posicao = 0; posicao < tabela.length; posicao++) {
+            if (tabela[posicao] != VAZIO) {
+                sequencia++;
+                if (sequencia > maior) {
+                    maior = sequencia;
+                }
+            } else {
+                sequencia = 0;
+            }
+        }
+        return maior;
+    }
+
+    //mesma coisa que a função anterior mas para tabela encadeamento
+    static int maiorAglomeradoEncadeamento(No[] tabela) {
+        int maior = 0;
+
+        for (int posicao = 0; posicao < tabela.length; posicao++) {
+            int quantidade = 0;
+
+            if (tabela[posicao].chave != VAZIO) {quantidade++;}
+            
+            No atual = tabela[posicao].proximo;
+            while (atual != null) {
+                quantidade++;
+                atual = atual.proximo;
+            }
+
+            if (quantidade > maior) {maior = quantidade;}
+        }
+        return maior;
+    }
 }
 
 class No {
