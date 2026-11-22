@@ -256,7 +256,18 @@ public class Trabalho1 {
         }
         return total;
     }
-}
+
+    //compara dois vetores e retorna true se forem iguais
+    static boolean vetoresIguais(int[]primeiro, int[]segundo)
+    {
+        if(primeiro.length != segundo.length){return false;}
+
+        boolean iguais = true;
+        for(int indice = 0; indice < primeiro.length; indice++){
+            if(primeiro[indice] != segundo[indice]){iguais = false;}
+        }
+        return iguais;
+    }
 
 class No {
     int chave;
