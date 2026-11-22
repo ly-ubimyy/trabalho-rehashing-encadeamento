@@ -53,14 +53,3 @@ O programa não pede nenhuma entrada. Ele roda os 29 testes de validação, most
 | `Trabalho1.java` | Código-fonte com as classes `Trabalho1` e `No` |
 | `resultados_trabalho1.csv` | Resultados dos 9 cenários gerados pelo programa |
 | `relatorio_trabalho1.pdf` | Relatório com tabela, gráficos e análise |
-
-## Andamento
-
-- [x] [#1 Estrutura base](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/1)
-- [x] [#2 Rehashing linear](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/2)
-- [x] [#3 Encadeamento ordenado](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/3)
-- [x] [#4 Geração de chaves](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/4)
-- [x] [#5 Métricas da estrutura](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/5)
-- [ ] [#6 Testes de validação](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/6)
-- [ ] [#7 Cenários e CSV](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/7)
-- [ ] [#8 Relatório](https://github.com/ly-ubimyy/trabalho-rehashing-encadeamento/issues/8)
