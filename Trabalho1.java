@@ -186,6 +186,27 @@ public class Trabalho1 {
         }
         return ausentes;
     }
+
+    //conta quantas posições estão vazias na tabela rehashing e retorna a quantidade
+    static int contaVaziasRehashing(int[] tabela){
+        int vazias = 0;
+        for(int posicao = 0; posicao < tabela.length; posicao++){
+            if(tabela[posicao] == VAZIO){vazias++;}
+        }
+        return vazias;
+
+    }
+
+    //mesma coisa que a função anterior mas para tabela encadeamento
+    static int contaVaziasEncadeamento(No[] tabela){
+        int vazias = 0;
+        for(int posicao = 0; posicao < tabela.length; posicao++){
+            if(tabela[posicao].chave == VAZIO){vazias++;}
+        }
+        return vazias;
+    }
+
+    
 }
 
 class No {
