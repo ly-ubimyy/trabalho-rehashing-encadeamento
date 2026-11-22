@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Trabalho1 {
 
     static int VAZIO = -1;
@@ -137,6 +139,52 @@ public class Trabalho1 {
 
         return -1;
         
+    }
+
+    //sorteia a chaves de 7 digitps sem repetir e retorna ovetor de chaves
+    static int[] geraChaves(Random sorteio, int quantidade){
+        int[] chaves = new int[quantidade];
+        int gerados = 0;
+
+        duplicadasDescartadas = 0;
+
+        while(gerados < quantidade){
+            int candidata = 1000000 + sorteio.nextInt(9000000);
+            boolean repetida = false;
+            for(int indice = 0; indice < gerados; indice++){
+                if(chaves [indice] == candidata){repetida = true;}
+
+                if(repetida){duplicadasDescartadas++;}
+                else{
+                    chaves[gerados] = candidata;
+                    gerados++;
+                }
+            }       
+             
+        }
+        return chaves;
+    }
+
+    //soteia chaves que não estão no vetor de chaves e retorna o vator de ausentes
+    static int[] geraAusentes(Random sorteio, int[] chaves, int quantidade){
+        int[] ausentes = new int[quantidade];
+        int gerados = 0;
+
+        while(gerados < quantidade){
+            int candidata = 1000000 + sorteio.nextInt(9000000);
+            boolean existe = false;
+
+            for (int indice = 0; indice < chaves.length; indice++){
+                if(chaves[indice] == candidata){existe = true;}
+
+
+            }
+            if(!existe){
+                ausentes[gerados] = candidata;
+                gerados++;
+            }
+        }
+        return ausentes;
     }
 }
 
