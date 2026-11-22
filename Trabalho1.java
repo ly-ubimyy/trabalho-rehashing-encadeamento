@@ -78,6 +78,66 @@ public class Trabalho1 {
         }
         return -1;
     }
+
+    //insere a chave usando o encademaneto com a lista ordenada, retorna 1 se inseriu certinho ou 0 se ja existia
+    static int insereEncadeamento(No [] tabela, int chave){
+        int posicao =  funcaoHash(chave, tabela.length);
+        acessos++;
+        if(tabela [posicao].chave == VAZIO){
+            tabela[posicao].chave = chave;
+            return 1;
+        }
+
+        colisoes++;
+        if(tabela[posicao].chave == chave){return 0;}
+        No anterior = tabela[posicao];
+        No atual = tabela[posicao].proximo;
+
+        boolean continua = true;
+
+        while(atual != null && continua){
+            acessos++;
+            if(atual.chave < chave){
+                anterior = atual;
+                atual = atual.proximo;
+            }
+            else{continua = false;}
+        }
+
+        if(atual != null && atual.chave == chave){return 0;}
+
+        No novo = new No(chave);
+        novo.proximo = atual;
+        anterior.proximo = novo;
+        return 1;
+    }
+
+    //procura a chave na tabela, se encontrar retorna a posicao onde ela esta ou -1 se não achou
+    static int buscaEncadeamento(No[] tabela, int chave){
+        int posicao = funcaoHash(chave, tabela.length);
+        
+        acessos++;
+        if(tabela[posicao].chave == VAZIO){return -1;}
+
+        if(tabela[posicao].chave == chave){return posicao;}
+
+        No atual = tabela[posicao].proximo;
+        boolean continua = true;
+
+        while(  atual != null && continua){
+            acessos++;
+            if(atual.chave < chave){
+                atual = atual.proximo;
+            }
+            else{continua = false;}
+
+        }
+        
+        if(atual != null && atual.chave == chave){return posicao;}
+
+        return -1;
+        
+    }
 }
 
 class No {
