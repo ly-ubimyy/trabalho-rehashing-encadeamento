@@ -156,14 +156,13 @@ public class Trabalho1 {
             boolean repetida = false;
             for(int indice = 0; indice < gerados; indice++){
                 if(chaves [indice] == candidata){repetida = true;}
-
-                if(repetida){duplicadasDescartadas++;}
-                else{
-                    chaves[gerados] = candidata;
-                    gerados++;
-                }
             }       
              
+            if(repetida){duplicadasDescartadas++;}
+            else{
+                chaves[gerados] = candidata;
+                gerados++;
+            }
         }
         return chaves;
     }
@@ -432,7 +431,7 @@ public class Trabalho1 {
         System.out.println("TESTES: " + testesAprovados + " de " + testesFeitos + " aprovados");
     }
 
-    // por enquanto so roda os testes e nao retorna nada
+    // por enquanto só roda os testes e não retorna nada
     public static void main(String[] args) {
         executaTestes();
     }
