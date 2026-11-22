@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class Trabalho1 {
 
@@ -431,11 +433,150 @@ public class Trabalho1 {
         System.out.println("TESTES: " + testesAprovados + " de " + testesFeitos + " aprovados");
     }
 
-    // por enquanto só roda os testes e não retorna nada
-    public static void main(String[] args) {
-        executaTestes();
+    // mede o rehashing em um cenario e grava a linha no console e no arquivo
+    static void cenarioRehashing(PrintWriter arquivo, int tamanho, int carga, int quantidade, int descartadas, int[] chaves, int[] ausentes) {
+        Runtime.getRuntime().gc();
+        long memoriaAntes = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        int[] tabela = criaTabelaRehashing(tamanho);
+        acessos = 0;
+        colisoes = 0;
+        long inicio = System.nanoTime();
+        for (int indice = 0; indice < quantidade; indice++) {
+            insereRehashing(tabela, chaves[indice]);
+        }
+        long fim = System.nanoTime();
+        long memoriaDepois = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        int colisoesInsercao = colisoes;
+        int acessosInsercao = acessos;
+        long tempoInsercao = (fim - inicio) / quantidade;
+        long memoria = memoriaDepois - memoriaAntes;
+
+        acessos = 0;
+        int maximo = 0;
+        inicio = System.nanoTime();
+        for (int indice = 0; indice < quantidade; indice++) {
+            int antes = acessos;
+            buscaRehashing(tabela, chaves[indice]);
+            int gastos = acessos - antes;
+            if (gastos > maximo) {
+                maximo = gastos;
+            }
+        }
+        fim = System.nanoTime();
+        int acessosSucesso = acessos;
+        long tempoBusca = (fim - inicio) / quantidade;
+
+        acessos = 0;
+        for (int indice = 0; indice < quantidade; indice++) {
+            buscaRehashing(tabela, ausentes[indice]);
+        }
+        int acessosFalha = acessos;
+
+        int vazias = contaVaziasRehashing(tabela);
+        int aglomerado = maiorAglomeradoRehashing(tabela);
+
+        String linha = String.format("%s;%d;%d;%d;%d;%d;%d;%.2f;%.2f;%d;%.2f;%d;%d;%d;%d;%d;%d",
+                "rehashing", tamanho, carga, quantidade, descartadas, colisoesInsercao, acessosInsercao,
+                (float) acessosInsercao / quantidade, (float) acessosSucesso / quantidade, maximo,
+                (float) acessosFalha / quantidade, vazias, aglomerado, 0, tempoInsercao, tempoBusca, memoria);
+        System.out.println(linha);
+        arquivo.println(linha);
+
+        if (vazias + quantidade != tamanho) {
+            System.out.println("ERRO: Regra de negócio violada");
+        }
     }
-    
+
+    // mede o encadeamento em um cenario e grava a linha no console e no arquivo
+    static void cenarioEncadeamento(PrintWriter arquivo, int tamanho, int carga, int quantidade, int descartadas, int[] chaves, int[] ausentes) {
+        Runtime.getRuntime().gc();
+        long memoriaAntes = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        No[] tabela = criaTabelaEncadeada(tamanho);
+        acessos = 0;
+        colisoes = 0;
+        long inicio = System.nanoTime();
+        for (int indice = 0; indice < quantidade; indice++) {
+            insereEncadeamento(tabela, chaves[indice]);
+        }
+        long fim = System.nanoTime();
+        long memoriaDepois = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        int colisoesInsercao = colisoes;
+        int acessosInsercao = acessos;
+        long tempoInsercao = (fim - inicio) / quantidade;
+        long memoria = memoriaDepois - memoriaAntes;
+
+        acessos = 0;
+        int maximo = 0;
+        inicio = System.nanoTime();
+        for (int indice = 0; indice < quantidade; indice++) {
+            int antes = acessos;
+            buscaEncadeamento(tabela, chaves[indice]);
+            int gastos = acessos - antes;
+            if (gastos > maximo) {
+                maximo = gastos;
+            }
+        }
+        fim = System.nanoTime();
+        int acessosSucesso = acessos;
+        long tempoBusca = (fim - inicio) / quantidade;
+
+        acessos = 0;
+        for (int indice = 0; indice < quantidade; indice++) {
+            buscaEncadeamento(tabela, ausentes[indice]);
+        }
+        int acessosFalha = acessos;
+
+        int vazias = contaVaziasEncadeamento(tabela);
+        int aglomerado = maiorAglomeradoEncadeamento(tabela);
+        int nosExtras = contaNosExtras(tabela);
+
+        String linha = String.format("%s;%d;%d;%d;%d;%d;%d;%.2f;%.2f;%d;%.2f;%d;%d;%d;%d;%d;%d",
+                "encadeamento", tamanho, carga, quantidade, descartadas, colisoesInsercao, acessosInsercao,
+                (float) acessosInsercao / quantidade, (float) acessosSucesso / quantidade, maximo,
+                (float) acessosFalha / quantidade, vazias, aglomerado, nosExtras, tempoInsercao, tempoBusca, memoria);
+        System.out.println(linha);
+        arquivo.println(linha);
+
+        if ((tamanho - vazias) + nosExtras != quantidade) {
+            System.out.println("ERRO: invariante violada");
+        }
+    }
+
+    // gera as chaves de um cenario e mede as duas tecnicas
+    static void executaCenario(PrintWriter arquivo, int tamanho, int carga) {
+        int quantidade = tamanho * carga / 100;
+        Random sorteio = new Random(1990);
+        int[] chaves = geraChaves(sorteio, quantidade);
+        int descartadas = duplicadasDescartadas;
+        int[] ausentes = geraAusentes(sorteio, chaves, quantidade);
+
+        cenarioRehashing(arquivo, tamanho, carga, quantidade, descartadas, chaves, ausentes);
+        cenarioEncadeamento(arquivo, tamanho, carga, quantidade, descartadas, chaves, ausentes);
+    }
+
+    // roda os testes, cria o csv/excel e executa os 9 cenarios
+    public static void main(String[] args) throws IOException {
+        executaTestes();
+
+        PrintWriter arquivo = new PrintWriter("resultados_trabalho1.csv");
+        String cabecalho = "tecnica;tamanho;cargaPercentual;chaves;duplicadasDescartadas;colisoes;acessosInsercaoTotal;acessosInsercaoMedia;acessosBuscaSucessoMedia;acessosBuscaSucessoMaximo;acessosBuscaFalhaMedia;posicoesVazias;maiorAglomerado;nosExtras;tempoInsercaoNsPorOp;tempoBuscaSucessoNsPorOp;memoriaMedidaBytes";
+        System.out.println(cabecalho);
+        arquivo.println(cabecalho);
+
+        int[] tamanhos = {100, 1000, 10000};
+        int[] cargas = {50, 70, 90};
+        for (int indiceTamanho = 0; indiceTamanho < tamanhos.length; indiceTamanho++) {
+            for (int indiceCarga = 0; indiceCarga < cargas.length; indiceCarga++) {
+                executaCenario(arquivo, tamanhos[indiceTamanho], cargas[indiceCarga]);
+            }
+        }
+
+        arquivo.close();
+    }
 }
 
 class No {
