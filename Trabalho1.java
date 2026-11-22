@@ -7,17 +7,17 @@ public class Trabalho1 {
     static int colisoes = 0;
     static int duplicadasDescartadas = 0;
 
-    // calcula a posicao da chave na tabela. retorna chave % tamanho
+    // calcula a posição da chave na tabela e retorna chave % tamanho
     static int funcaoHash(int chave, int tamanho) {
         return chave % tamanho;
     }
 
-    // calcula a proxima posicao quando da colisao. retorna (posicao + 1) % tamanho
+    // calcula a próxima posição quando da colisão e retorna (posicao + 1) % tamanho
     static int rehash(int posicao, int tamanho) {
         return (posicao + 1) % tamanho;
     }
 
-    // cria a tabela do rehashing com todas as posicoes vazias. retorna o vetor criado
+    // cria a tabela do rehashing com todas as posiçõess vazias e retorna o vetor criado
     static int[] criaTabelaRehashing(int tamanho) {
         int[] tabela = new int[tamanho];
         for (int posicao = 0; posicao < tamanho; posicao++) {
@@ -26,7 +26,7 @@ public class Trabalho1 {
         return tabela;
     }
 
-    // cria a tabela do encadeamento com um no vazio em cada posicao. retorna o vetor criado
+    // cria a tabela do encadeamento com um no vazio em cada posição e retorna o vetor criado
     static No[] criaTabelaEncadeada(int tamanho) {
         No[] tabela = new No[tamanho];
         for (int posicao = 0; posicao < tamanho; posicao++) {
@@ -35,7 +35,7 @@ public class Trabalho1 {
         return tabela;
     }
 
-    //insere a chave usansdo o rehashing liinear, nisso ele retorna 1 se inseriu ou 0 se ja exisita e -1 se ja tava cheia
+    //insere a chave usando o rehashing liinear, nisso ele retorna 1 se inseriu ou 0 se ja exisita e -1 se ja tava cheia
     static int insereRehashing(int[] tabela, int chave)
     {
         int tamanho = tabela.length;
@@ -61,7 +61,7 @@ public class Trabalho1 {
         return -1;
     }
 
-    //procura a chave na tabela, retorna a oposicao se achou e se não -1
+    //procura a chave na tabela, retorna a posição se achou e se não -1
     static int buscaRehashing(int[] tabela, int chave){
         int tamanho = tabela.length;
         int posicao = funcaoHash(chave, tamanho);
@@ -114,7 +114,7 @@ public class Trabalho1 {
         return 1;
     }
 
-    //procura a chave na tabela, se encontrar retorna a posicao onde ela esta ou -1 se não achou
+    //procura a chave na tabela, se encontrar retorna a posição onde ela esta ou -1 se não achou
     static int buscaEncadeamento(No[] tabela, int chave){
         int posicao = funcaoHash(chave, tabela.length);
         
@@ -141,7 +141,7 @@ public class Trabalho1 {
         
     }
 
-    //sorteia a chaves de 7 digitps sem repetir e retorna ovetor de chaves
+    //sorteia a chaves de 7 digitos sem repetir e retorna o vetor de chaves
     static int[] geraChaves(Random sorteio, int quantidade){
         int[] chaves = new int[quantidade];
         int gerados = 0;
