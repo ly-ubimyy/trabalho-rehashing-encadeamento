@@ -6,6 +6,9 @@ public class Trabalho1 {
     static int acessos = 0;
     static int colisoes = 0;
     static int duplicadasDescartadas = 0;
+    static int testesAprovados = 0;
+    static int testesFeitos = 0;
+
 
     // calcula a posição da chave na tabela e retorna chave % tamanho
     static int funcaoHash(int chave, int tamanho) {
@@ -268,6 +271,35 @@ public class Trabalho1 {
         }
         return iguais;
     }
+
+    //confere se a lista que começa em inicio tem as mesmas chaves esperadas e retorna true se tiver]
+    static boolean listaConfere(No inicio, int[] esperado){
+        No atual = inicio;
+
+        int indice = 0;
+        boolean certo = true;
+
+        while(atual != null){
+            if (indice >= esperado.length){certo = false;}
+            else if(atual.chave != esperado[indice]){certo = false;}
+            
+            indice++;
+            atual = atual.proximo;
+        }
+
+        if (indice != esperado.length) {certo = false;}
+        return certo;
+    }
+
+    //imprime o resultado de um teste e soma com o contador mas não retorna nada pq é void
+    static void mostraTeste(String codigo, boolean passou){
+        testesFeitos++;
+        if(passou){
+            testesAprovados++;
+            System.out.println("Teste" + codigo + ": Aprovado");}
+        else{System.out.println("Teste" + codigo + ": Reprovado");}
+    }
+}
 
 class No {
     int chave;
