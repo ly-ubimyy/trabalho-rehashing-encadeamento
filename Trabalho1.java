@@ -297,8 +297,8 @@ public class Trabalho1 {
         testesFeitos++;
         if(passou){
             testesAprovados++;
-            System.out.println("Teste" + codigo + ": Aprovado");}
-        else{System.out.println("Teste" + codigo + ": Reprovado");}
+            System.out.println("TESTE " + codigo + ": APROVADO");}
+        else{System.out.println("TESTE " + codigo + ": REPROVADO");}
     }
 
     //roda os 29 testes solicitados no documento e imprime o resultado de cada um
